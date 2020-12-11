@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static com.ceiba.CeibaPeliculas.dominio.excepcion.validacion.ValidadorArgumentos.validarObligatorio;
 
@@ -34,4 +35,16 @@ public class Prestamo {
     private Cliente cliente;
     private Pelicula pelicula;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prestamo prestamo = (Prestamo) o;
+        return valorPrestamo == prestamo.valorPrestamo && Objects.equals(idPrestamo, prestamo.idPrestamo) && Objects.equals(fechaPrestamo, prestamo.fechaPrestamo) && Objects.equals(fechaDevolucion, prestamo.fechaDevolucion) && Objects.equals(cliente, prestamo.cliente) && Objects.equals(pelicula, prestamo.pelicula);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPrestamo, fechaPrestamo, fechaDevolucion, valorPrestamo, cliente, pelicula);
+    }
 }
