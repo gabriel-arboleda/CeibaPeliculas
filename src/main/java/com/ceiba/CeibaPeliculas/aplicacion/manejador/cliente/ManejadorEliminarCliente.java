@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class ManejadorEliminarCliente implements ManejadorComando<Long> {
 
-    private final EliminarClienteServicio clienteServicio;
+    private final EliminarClienteServicio eliminarClienteServicio;
 
     @Override
     public void ejecutar(Long docIdentidad) {
-        this.clienteServicio.eliminarCliente(docIdentidad);
+        this.eliminarClienteServicio.eliminarCliente(docIdentidad);
     }
 }
