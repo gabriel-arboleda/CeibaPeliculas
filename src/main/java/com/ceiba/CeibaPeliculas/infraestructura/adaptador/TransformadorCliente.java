@@ -1,4 +1,4 @@
-package com.ceiba.CeibaPeliculas.infraestructura.adaptador.transformador;
+package com.ceiba.CeibaPeliculas.infraestructura.adaptador;
 
 import com.ceiba.CeibaPeliculas.dominio.modelo.Cliente;
 import com.ceiba.CeibaPeliculas.infraestructura.modelo.ClienteEntidad;

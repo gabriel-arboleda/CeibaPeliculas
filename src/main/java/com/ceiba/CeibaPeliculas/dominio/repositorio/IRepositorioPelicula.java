@@ -1,13 +1,8 @@
 package com.ceiba.CeibaPeliculas.dominio.repositorio;
 
-import com.ceiba.CeibaPeliculas.dominio.modelo.Pelicula;
+import com.ceiba.CeibaPeliculas.infraestructura.modelo.PeliculaEntidad;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface IRepositorioPelicula {
-
-    boolean exitePelicula( Long idPelicula );
-    List<Pelicula> consultarPelicula();
-    Pelicula GuardarPelicual(Pelicula pelicula);
-    void eliminarPeliculaPorId(Long idPelicula );
-}
+@Repository
+public interface IRepositorioPelicula extends JpaRepository<PeliculaEntidad, Long>{}
