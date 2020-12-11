@@ -12,6 +12,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -85,13 +87,18 @@ public class GuardarPrestamoServicioTest {
     @Test
     public void validarFechaEntregaMaxima(){
         Prestamo prestamo = new PrestamoFactory().buildPrestamo();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(prestamo.getFechaPrestamo());
+        calendar.add(Calendar.DAY_OF_YEAR, 5);
+        Date fechaEntrega = calendar.getTime();
+
         List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad(16);
 
         try {
             spyGuardarPrestamoServicio.validarFechaEntregaMaxima(listaPrestamos, prestamo);
         } catch (Exception error){
             assertTrue(error instanceof ErrorNegocioExcepcion);
-            assertEquals(GuardarPrestamoServicio.ERROR_FECHA_MAXIMA_ENTREGA, error.getMessage());
+            assertEquals(GuardarPrestamoServicio.ERROR_FECHA_MAXIMA_ENTREGA+fechaEntrega, error.getMessage());
         }
 
     }
@@ -99,7 +106,7 @@ public class GuardarPrestamoServicioTest {
     @Test
     public void calcularValorPrestamoTest(){
         Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-        long valorPrestamoEsperado = 8500L;
+        long valorPrestamoEsperado = 9000L;
 
         long valorPrestamo = spyGuardarPrestamoServicio.calcularValorPrestamo(prestamo);
 
