@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class EliminarPeliculaServicio {
 
     private final IRepositorioPelicula repositorioPelicula;
-    private static final String ERROR_NO_EXISTE_PELICULA = "No existe la pelicula";
+    public static final String ERROR_NO_EXISTE_PELICULA = "No existe la pelicula";
 
     public void eliminarPelicula( Long idPelicula) {
         existePelicula(idPelicula);

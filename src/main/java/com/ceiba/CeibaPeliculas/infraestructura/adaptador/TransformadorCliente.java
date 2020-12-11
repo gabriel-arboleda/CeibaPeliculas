@@ -3,7 +3,6 @@ package com.ceiba.CeibaPeliculas.infraestructura.adaptador;
 import com.ceiba.CeibaPeliculas.dominio.modelo.Cliente;
 import com.ceiba.CeibaPeliculas.infraestructura.modelo.ClienteEntidad;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,6 @@ public final class TransformadorCliente {
                 .conDocIdentidad( clienteEntidad.getDocIdentidad() )
                 .conNombres( clienteEntidad.getNombres() )
                 .conApellidos( clienteEntidad.getApellidos() )
-                .conListaPrestamo( TransformadorPrestamo.mapToListaPrestamo(clienteEntidad.getListaPrestamos()) )
                 .build();
     }
 
@@ -34,7 +32,6 @@ public final class TransformadorCliente {
                 .conDocIdentidad(cliente.getDocIdentidad())
                 .conNombres(cliente.getNombres())
                 .conApellidos(cliente.getApellidos())
-                .conListaPrestamos(new ArrayList<>())
                 .build();
     }
 

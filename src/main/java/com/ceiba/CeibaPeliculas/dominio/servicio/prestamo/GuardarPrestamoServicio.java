@@ -21,13 +21,13 @@ public class GuardarPrestamoServicio {
     public static final String ERROR_MAXIMO_PRESTAMO = "El cliente no puede prestar mas peliculas";
     public static final int MAXIMOS_PRESTAMO = 35;
     public static final int VALOR_PRESTAMOS_INICIAL = 5000;
-    public static final String FECHA_MAXIMA_ENTREGA = "La fecha maxima de entrega es el ";
+    public static final String ERROR_FECHA_MAXIMA_ENTREGA = "La fecha maxima de entrega es el ";
 
     public Prestamo guardarPrestamo(Prestamo prestamo) {
         List<PrestamoEntidad> prestamos = repositorioPrestamo.findAllByClienteEntidadDocIdentidad(prestamo.getCliente().getDocIdentidad());
         maximoPrestamo(prestamos);
         peliculaPrestada(prestamo.getPelicula().getIdPelicula());
-        calcularFechaEntregaMaxima(prestamos, prestamo);
+        validarFechaEntregaMaxima(prestamos, prestamo);
         prestamo.setValorPrestamo(calcularValorPrestamo(prestamo));
         prestamo.setValorPrestamo(aplicarDescuentos(prestamos, prestamo));
         PrestamoEntidad prestamoEntidad = TransformadorPrestamo.mapToPrestamoEntidad(prestamo);
@@ -41,14 +41,21 @@ public class GuardarPrestamoServicio {
     }
 
     public void maximoPrestamo( List<PrestamoEntidad> prestamos ) throws ErrorNegocioExcepcion {
-        Date fechaHoy = new Date();
-        long prestamosMaximo = prestamos.stream().filter( prestamoEntidad -> prestamoEntidad.getFechaPrestamo().after(fechaHoy) && prestamoEntidad.getFechaDevolucion().before(fechaHoy) ).count();
-        if (prestamosMaximo > MAXIMOS_PRESTAMO){
+        long numeroPrestamos = obtenerNumeroPrestamosVigentes(prestamos);
+        if (numeroPrestamos > MAXIMOS_PRESTAMO){
             throw new ErrorNegocioExcepcion(ERROR_MAXIMO_PRESTAMO);
         }
     }
 
-    public void calcularFechaEntregaMaxima(List<PrestamoEntidad> prestamos, Prestamo prestamo) {
+    public Long obtenerNumeroPrestamosVigentes(List<PrestamoEntidad> prestamos){
+        Date fechaHoy = new Date();
+        return prestamos.stream()
+                .filter( prestamoEntidad ->
+                prestamoEntidad.getFechaPrestamo().after(fechaHoy) && prestamoEntidad.getFechaDevolucion().before(fechaHoy)
+        ).count();
+    }
+
+    public void validarFechaEntregaMaxima(List<PrestamoEntidad> prestamos, Prestamo prestamo) {
         int numeroPrestamos = prestamos.size();
         if (numeroPrestamos > 15 ) {
             Calendar calendar = Calendar.getInstance();
@@ -56,9 +63,27 @@ public class GuardarPrestamoServicio {
             calendar.add(Calendar.DAY_OF_YEAR, 5);
             Date fechaEntrega = calendar.getTime();
             if (prestamo.getFechaDevolucion().after(fechaEntrega)) {
-                throw new ErrorNegocioExcepcion(FECHA_MAXIMA_ENTREGA+fechaEntrega );
+                throw new ErrorNegocioExcepcion(ERROR_FECHA_MAXIMA_ENTREGA +fechaEntrega );
             }
         }
+    }
+
+    public Long calcularValorPrestamo(Prestamo prestamo) {
+        long valorPrestamo = VALOR_PRESTAMOS_INICIAL;
+        Date fechaPrestamo = prestamo.getFechaPrestamo();
+        Date fechaDevolucion = prestamo.getFechaDevolucion();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(prestamo.getFechaPrestamo());
+        while (fechaPrestamo.before(fechaDevolucion)) {
+            int dia = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dia == Calendar.SUNDAY || dia == Calendar.SATURDAY) {
+                valorPrestamo += 500;
+            }
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            fechaPrestamo = calendar.getTime();
+            valorPrestamo += 500;
+        }
+        return valorPrestamo;
     }
 
     public Long aplicarDescuentos( List<PrestamoEntidad> prestamos, Prestamo prestamo ){
@@ -68,23 +93,6 @@ public class GuardarPrestamoServicio {
             valorPrestamo -= valorPrestamo * 0.2;
         } else if( numeroPrestamos > 15 ) {
             valorPrestamo -= valorPrestamo * 0.1;
-        }
-        return valorPrestamo;
-    }
-
-    public Long calcularValorPrestamo(Prestamo prestamo) {
-        long valorPrestamo = VALOR_PRESTAMOS_INICIAL;
-        Date fechaPrestamo = prestamo.getFechaPrestamo();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(prestamo.getFechaPrestamo());
-        while (fechaPrestamo.before(prestamo.getFechaDevolucion())) {
-            int dia = calendar.get(Calendar.DAY_OF_WEEK);
-            if (dia == Calendar.SUNDAY || dia == Calendar.SATURDAY) {
-                valorPrestamo += 500;
-            }
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            fechaPrestamo = calendar.getTime();
-            valorPrestamo += 500;
         }
         return valorPrestamo;
     }

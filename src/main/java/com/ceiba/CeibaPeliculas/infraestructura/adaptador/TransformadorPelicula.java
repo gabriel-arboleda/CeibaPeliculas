@@ -17,7 +17,6 @@ public final class TransformadorPelicula {
                 .conIdPelicula(peliculaEntidad.getIdPelicula())
                 .conNombrePelicula(peliculaEntidad.getNombrePelicula())
                 .conGenero(peliculaEntidad.getGenero())
-                .conListaPrestamo( TransformadorPrestamo.mapToListaPrestamo(peliculaEntidad.getListaPrestamos()))
                 .build();
     }
 
@@ -34,7 +33,6 @@ public final class TransformadorPelicula {
                 .conIdPelicula(pelicula.getIdPelicula())
                 .conNombrePelicula(pelicula.getNombrePelicula())
                 .conGenero(pelicula.getGenero())
-                .conListaPrestamos(new ArrayList<>())
                 .build();
     }
 
