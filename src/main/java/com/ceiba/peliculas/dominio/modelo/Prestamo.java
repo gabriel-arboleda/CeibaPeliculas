@@ -21,7 +21,7 @@ public class Prestamo {
         validarObligatorio(fechaDevolucion, FECHA_DEVOLUCION_OBLIGATORIA);
 
         this.idPrestamo = idPrestamo;
-        this.fechaPrestamo = fechaPrestamo;
+        this.fechaPrestamo = new Date(fechaPrestamo.getTime());
         this.fechaDevolucion = fechaDevolucion;
         this.valorPrestamo = valorPrestamo;
         this.cliente = cliente;
