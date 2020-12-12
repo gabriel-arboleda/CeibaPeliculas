@@ -3,6 +3,7 @@ package com.ceiba.peliculas.infraestructura.adaptador;
 import com.ceiba.peliculas.dominio.modelo.Pelicula;
 import com.ceiba.peliculas.infraestructura.modelo.PeliculaEntidad;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ public final class TransformadorPelicula {
                 .conIdPelicula(peliculaEntidad.getIdPelicula())
                 .conNombrePelicula(peliculaEntidad.getNombrePelicula())
                 .conGenero(peliculaEntidad.getGenero())
+                .conListaPrestamo(new ArrayList<>())
                 .build();
     }
 
@@ -24,6 +26,7 @@ public final class TransformadorPelicula {
                 .conIdPelicula(peliculaEntidad.getIdPelicula())
                 .conNombrePelicula(peliculaEntidad.getNombrePelicula())
                 .conGenero(peliculaEntidad.getGenero())
+                .conListaPrestamo(new ArrayList<>())
                 .build();
     }
 
@@ -32,6 +35,7 @@ public final class TransformadorPelicula {
                 .conIdPelicula(pelicula.getIdPelicula())
                 .conNombrePelicula(pelicula.getNombrePelicula())
                 .conGenero(pelicula.getGenero())
+                .conListaPrestamos(new ArrayList<>())
                 .build();
     }
 
