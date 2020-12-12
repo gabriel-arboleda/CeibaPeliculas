@@ -22,7 +22,7 @@ public class Prestamo {
 
         this.idPrestamo = idPrestamo;
         this.fechaPrestamo = new Date(fechaPrestamo.getTime());
-        this.fechaDevolucion = fechaDevolucion;
+        this.fechaDevolucion = new Date(fechaDevolucion.getTime());;
         this.valorPrestamo = valorPrestamo;
         this.cliente = cliente;
         this.pelicula = pelicula;
