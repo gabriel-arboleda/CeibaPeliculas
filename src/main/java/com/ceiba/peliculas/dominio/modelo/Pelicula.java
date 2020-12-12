@@ -3,6 +3,7 @@ package com.ceiba.peliculas.dominio.modelo;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class Pelicula {
         this.idPelicula = idPelicula;
         this.nombrePelicula = nombrePelicula;
         this.genero = genero;
-        this.listaPrestamo = listaPrestamo;
+        this.listaPrestamo = Collections.unmodifiableList(listaPrestamo);
     }
 
     @Override
