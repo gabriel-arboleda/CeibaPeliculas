@@ -3,6 +3,8 @@ package com.ceiba.peliculas.infraestructura.mockFactory;
 import com.ceiba.peliculas.dominio.modelo.Cliente;
 import com.ceiba.peliculas.infraestructura.modelo.ClienteEntidad;
 
+import java.util.ArrayList;
+
 public class ClienteFactory {
 
     private static final Long DOC_IDENTIDAD = 2L;
@@ -14,6 +16,7 @@ public class ClienteFactory {
                 .conDocIdentidad(DOC_IDENTIDAD)
                 .conNombres(NOMBRES)
                 .conApellidos(APPELLIDOS)
+                .conListaPrestamo(new ArrayList<>())
                 .build();
     }
 
@@ -22,6 +25,7 @@ public class ClienteFactory {
                 .conDocIdentidad(DOC_IDENTIDAD)
                 .conNombres(NOMBRES)
                 .conApellidos(APPELLIDOS)
+                .conListaPrestamos(new ArrayList<>())
                 .build();
     }
 

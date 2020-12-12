@@ -4,6 +4,7 @@ import static com.ceiba.peliculas.dominio.excepcion.validacion.ValidadorArgument
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;

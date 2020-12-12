@@ -3,6 +3,8 @@ package com.ceiba.peliculas.infraestructura.mockFactory;
 import com.ceiba.peliculas.dominio.modelo.Pelicula;
 import com.ceiba.peliculas.infraestructura.modelo.PeliculaEntidad;
 
+import java.util.ArrayList;
+
 public class PeliculaFactory {
 
     private static final Long ID_PELICULA = 1L;
@@ -14,6 +16,7 @@ public class PeliculaFactory {
                 .conIdPelicula(ID_PELICULA)
                 .conNombrePelicula(NOMBRE_PELICULA)
                 .conGenero(GENERO)
+                .conListaPrestamo(new ArrayList<>())
                 .build();
     }
 
@@ -22,6 +25,7 @@ public class PeliculaFactory {
                 .conIdPelicula(ID_PELICULA)
                 .conNombrePelicula(NOMBRE_PELICULA)
                 .conGenero(GENERO)
+                .conListaPrestamos(new ArrayList<>())
                 .build();
     }
 
