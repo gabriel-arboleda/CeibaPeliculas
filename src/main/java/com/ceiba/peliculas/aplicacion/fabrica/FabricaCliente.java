@@ -3,6 +3,8 @@ package com.ceiba.peliculas.aplicacion.fabrica;
 import com.ceiba.peliculas.aplicacion.comando.ComandoCliente;
 import com.ceiba.peliculas.dominio.modelo.Cliente;
 
+import java.util.ArrayList;
+
 public final class FabricaCliente {
 
     public FabricaCliente() {
@@ -13,6 +15,7 @@ public final class FabricaCliente {
                 .conDocIdentidad(comandoCliente.getDocIdentidad())
                 .conNombres(comandoCliente.getNombres())
                 .conApellidos(comandoCliente.getApellidos())
+                .conListaPrestamo(new ArrayList<>())
                 .build();
     }
 
