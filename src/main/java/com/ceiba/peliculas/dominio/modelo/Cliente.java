@@ -4,7 +4,6 @@ import static com.ceiba.peliculas.dominio.excepcion.validacion.ValidadorArgument
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -32,10 +31,10 @@ public class Cliente {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
+    public boolean equals(Object objCliente) {
+        if (this == objCliente) return true;
+        if (objCliente == null || getClass() != objCliente.getClass()) return false;
+        Cliente cliente = (Cliente) objCliente;
         return Objects.equals(docIdentidad, cliente.docIdentidad) && Objects.equals(nombres, cliente.nombres) && Objects.equals(apellidos, cliente.apellidos) && Objects.equals(listaPrestamo, cliente.listaPrestamo);
     }
 

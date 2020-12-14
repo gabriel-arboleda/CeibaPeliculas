@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 
 public final class TransformadorPelicula {
 
-    public TransformadorPelicula() {
-    }
-
     public static Pelicula mapToPeliculaModelo(PeliculaEntidad peliculaEntidad ) {
         return Pelicula.builder()
                 .conIdPelicula(peliculaEntidad.getIdPelicula())

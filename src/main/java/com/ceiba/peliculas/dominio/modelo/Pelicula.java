@@ -32,10 +32,10 @@ public class Pelicula {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pelicula pelicula = (Pelicula) o;
+    public boolean equals(Object objPelicula) {
+        if (this == objPelicula) return true;
+        if (objPelicula == null || getClass() != objPelicula.getClass()) return false;
+        Pelicula pelicula = (Pelicula) objPelicula;
         return Objects.equals(idPelicula, pelicula.idPelicula) && Objects.equals(nombrePelicula, pelicula.nombrePelicula) && Objects.equals(genero, pelicula.genero) && Objects.equals(listaPrestamo, pelicula.listaPrestamo);
     }
 

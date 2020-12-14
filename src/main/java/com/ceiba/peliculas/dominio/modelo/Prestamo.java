@@ -36,10 +36,10 @@ public class Prestamo {
     private Pelicula pelicula;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Prestamo prestamo = (Prestamo) o;
+    public boolean equals(Object objPrestamo) {
+        if (this == objPrestamo) return true;
+        if (objPrestamo == null || getClass() != objPrestamo.getClass()) return false;
+        Prestamo prestamo = (Prestamo) objPrestamo;
         return valorPrestamo == prestamo.valorPrestamo && Objects.equals(idPrestamo, prestamo.idPrestamo) && Objects.equals(fechaPrestamo, prestamo.fechaPrestamo) && Objects.equals(fechaDevolucion, prestamo.fechaDevolucion) && Objects.equals(cliente, prestamo.cliente) && Objects.equals(pelicula, prestamo.pelicula);
     }
 

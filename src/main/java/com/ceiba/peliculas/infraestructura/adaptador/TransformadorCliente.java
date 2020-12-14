@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 
 public final class TransformadorCliente {
 
-    public TransformadorCliente() {
-    }
-
     public static Cliente mapToClienteModelo(ClienteEntidad clienteEntidad) {
         return Cliente.builder()
                 .conDocIdentidad( clienteEntidad.getDocIdentidad() )
