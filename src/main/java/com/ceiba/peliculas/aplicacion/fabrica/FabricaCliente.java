@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 public final class FabricaCliente {
 
-    public FabricaCliente() {
-    }
-
     public static Cliente crearCliente(ComandoCliente comandoCliente) {
         return Cliente.builder()
                 .conDocIdentidad(comandoCliente.getDocIdentidad())
