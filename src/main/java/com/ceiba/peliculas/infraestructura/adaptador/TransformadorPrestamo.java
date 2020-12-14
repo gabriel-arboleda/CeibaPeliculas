@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public final class TransformadorPrestamo {
 
+    public TransformadorPrestamo() {
+    }
+
     public static Prestamo mapToPrestamoModelo(PrestamoEntidad prestamoEntidad ) {
         return Prestamo.builder()
                 .conIdPrestamo(prestamoEntidad.getIdPrestamo())

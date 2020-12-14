@@ -7,6 +7,9 @@ import java.util.Date;
 
 public class FabricaPrestamo {
 
+    public FabricaPrestamo() {
+    }
+
     public static Prestamo crearPrestamo(ComandoPrestamo comandoPrestamo ) {
         return Prestamo.builder()
                 .conFechaPrestamo(new Date())
