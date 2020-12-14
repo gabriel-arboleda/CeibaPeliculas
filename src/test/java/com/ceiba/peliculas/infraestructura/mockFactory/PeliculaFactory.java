@@ -1,5 +1,6 @@
 package com.ceiba.peliculas.infraestructura.mockFactory;
 
+import com.ceiba.peliculas.aplicacion.comando.ComandoPelicula;
 import com.ceiba.peliculas.dominio.modelo.Pelicula;
 import com.ceiba.peliculas.infraestructura.modelo.PeliculaEntidad;
 
@@ -29,5 +30,8 @@ public class PeliculaFactory {
                 .build();
     }
 
+    public ComandoPelicula buildComando(){
+        return new ComandoPelicula(2L, "HB", "accion");
+    }
 
 }

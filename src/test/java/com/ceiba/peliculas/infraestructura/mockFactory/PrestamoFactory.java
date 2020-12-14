@@ -1,5 +1,8 @@
 package com.ceiba.peliculas.infraestructura.mockFactory;
 
+import com.ceiba.peliculas.aplicacion.comando.ComandoCliente;
+import com.ceiba.peliculas.aplicacion.comando.ComandoPelicula;
+import com.ceiba.peliculas.aplicacion.comando.ComandoPrestamo;
 import com.ceiba.peliculas.dominio.modelo.Cliente;
 import com.ceiba.peliculas.dominio.modelo.Pelicula;
 import com.ceiba.peliculas.dominio.modelo.Prestamo;
@@ -20,6 +23,8 @@ public class PrestamoFactory {
     private static final Pelicula PELICULA = new PeliculaFactory().buildPelicula();
     private static final ClienteEntidad CLIENTE_ENTIDAD = new ClienteFactory().buildClienteEntidad();
     private static final PeliculaEntidad PELICULA_ENTIDAD = new PeliculaFactory().buildPeliculaEntidad();
+    private static final ComandoCliente COMANDO_CLIENTE = new ClienteFactory().buildComando();
+    private static final ComandoPelicula COMANDO_PELICULA = new PeliculaFactory().buildComando();
 
     public Prestamo buildPrestamo(){
         return Prestamo.builder()
@@ -57,6 +62,10 @@ public class PrestamoFactory {
             i++;
         }
         return listaPrestamos;
+    }
+
+    public ComandoPrestamo buildComando() {
+        return new ComandoPrestamo(FECHA_DEVOLUCION,COMANDO_CLIENTE,COMANDO_PELICULA);
     }
 
 }
