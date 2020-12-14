@@ -18,6 +18,8 @@ import java.util.List;
 @Builder(setterPrefix = "con")
 public class PeliculaEntidad  implements Serializable {
 
+    private static final long serialVersionUID = 8434850033473170469L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPelicula;

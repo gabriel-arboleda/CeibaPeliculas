@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class FabricaPelicula {
 
+    public FabricaPelicula() {
+    }
+
     public static Pelicula crearPelicula(ComandoPelicula comandoPelicula) {
         return Pelicula.builder()
                 .conIdPelicula(comandoPelicula.getIdPelicula())
