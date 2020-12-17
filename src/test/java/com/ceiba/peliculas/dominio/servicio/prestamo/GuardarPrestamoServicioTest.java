@@ -88,7 +88,6 @@ public class GuardarPrestamoServicioTest {
             spyGuardarPrestamoServicio.guardarPrestamo(prestamo);
         } catch (Exception error){
             assertTrue(error instanceof ErrorFechaEntregaMaximaExcepcion);
-            assertEquals(GuardarPrestamoServicio.ERROR_FECHA_MAXIMA_ENTREGA, error.getMessage());
         }
 
         verify(repositorioPrestamo).consultarPrestamosPorCliente(anyLong());
