@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "prestamo")
+@RequestMapping(value = "api/prestamo")
 public class ControladorPrestamo {
 
     private final ManejadorConsultaPrestamo manejadorConsultaPrestamo;
