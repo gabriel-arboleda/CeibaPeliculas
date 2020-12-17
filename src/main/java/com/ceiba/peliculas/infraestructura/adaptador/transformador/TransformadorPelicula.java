@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public final class TransformadorPelicula {
 
-    public TransformadorPelicula() {
+    private TransformadorPelicula() {
     }
 
     public static Pelicula mapToPeliculaModelo(PeliculaEntidad peliculaEntidad ) {

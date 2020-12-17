@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public final class TransformadorPrestamo {
 
-    public TransformadorPrestamo() {
+    private TransformadorPrestamo() {
     }
 
     public static Prestamo mapToPrestamoModelo(PrestamoEntidad prestamoEntidad ) {
