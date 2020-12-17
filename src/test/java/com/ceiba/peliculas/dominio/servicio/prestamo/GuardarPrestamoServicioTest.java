@@ -145,55 +145,5 @@ public class GuardarPrestamoServicioTest {
         verify(repositorioPrestamo).guardarPrestamo(any(Prestamo.class));
         verify(repositorioPrestamo).existePrestamoPorPelicula(anyLong());
     }
-
-//
-//    @Test
-//    public void maximoPrestamoTest(){
-//        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo();
-//
-//        Mockito.doReturn(50L).when(spyGuardarPrestamoServicio).obtenerNumeroPrestamosVigentes(anyListOf(Prestamo.class));
-//
-//        try {
-//            spyGuardarPrestamoServicio.maximoPrestamo(listaPrestamos);
-//        } catch (Exception error){
-//            assertTrue(error instanceof ErrorMaximoPrestamoExcepcion);
-//            assertEquals(GuardarPrestamoServicio.ERROR_MAXIMO_PRESTAMO, error.getMessage());
-//        }
-//        verify(spyGuardarPrestamoServicio).maximoPrestamo(anyListOf(Prestamo.class));
-//    }
-//
-//
-//
-//    @Test
-//    public void aplicarDescuentos20porcientoTest(){
-//        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-//        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(31);
-//        long valorPrestamoEsperado = 4000L;
-//
-//        long valorPrestamo = spyGuardarPrestamoServicio.aplicarDescuentos(listaPrestamos,prestamo);
-//
-//        assertEquals(valorPrestamo, valorPrestamoEsperado);
-//    }
-//
-//    @Test
-//    public void aplicarDescuentos10porcientoTest(){
-//        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-//        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(16);
-//        long valorPrestamoEsperado = 4500L;
-//
-//        long valorPrestamo = spyGuardarPrestamoServicio.aplicarDescuentos(listaPrestamos,prestamo);
-//
-//        assertEquals(valorPrestamo, valorPrestamoEsperado);
-//    }
-//
-//    @Test
-//    public void noAplicarDescuentosTest(){
-//        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-//        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo();
-//        long valorPrestamoEsperado = 5000L;
-//
-//        long valorPrestamo = spyGuardarPrestamoServicio.aplicarDescuentos(listaPrestamos,prestamo);
-//
-//        assertEquals(valorPrestamo, valorPrestamoEsperado);
-//    }
+    
 }
