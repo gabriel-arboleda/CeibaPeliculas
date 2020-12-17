@@ -33,20 +33,20 @@ public class GuardarPrestamoServicio {
         return repositorioPrestamo.guardarPrestamo(prestamo);
     }
 
-    protected void peliculaPrestada(Long idPelicula) {
+    private void peliculaPrestada(Long idPelicula) {
         boolean peliculaPrestada = repositorioPrestamo.existePrestamoPorPelicula( idPelicula );
         if ( peliculaPrestada )
             throw new ErrorPeliculaPrestadaExcepcion(ERROR_PELICULA_PRESTADA);
     }
 
-    protected void maximoPrestamo( List<Prestamo> prestamos ) {
+    private void maximoPrestamo( List<Prestamo> prestamos ) {
         long numeroPrestamos = obtenerNumeroPrestamosVigentes(prestamos);
         if (numeroPrestamos > MAXIMOS_PRESTAMO){
             throw new ErrorMaximoPrestamoExcepcion(ERROR_MAXIMO_PRESTAMO);
         }
     }
 
-    protected Long obtenerNumeroPrestamosVigentes(List<Prestamo> prestamos){
+    private Long obtenerNumeroPrestamosVigentes(List<Prestamo> prestamos){
         Date fechaHoy = new Date();
         return prestamos.stream()
                 .filter( prestamoEntidad ->
@@ -54,7 +54,7 @@ public class GuardarPrestamoServicio {
         ).count();
     }
 
-    protected void validarFechaEntregaMaxima(List<Prestamo> prestamos, Prestamo prestamo) {
+    private void validarFechaEntregaMaxima(List<Prestamo> prestamos, Prestamo prestamo) {
         int numeroPrestamos = prestamos.size();
         if (numeroPrestamos > 15 ) {
             Calendar calendar = Calendar.getInstance();
@@ -67,7 +67,7 @@ public class GuardarPrestamoServicio {
         }
     }
 
-    protected Long calcularValorPrestamo(Prestamo prestamo) {
+    private Long calcularValorPrestamo(Prestamo prestamo) {
         long valorPrestamo = VALOR_PRESTAMOS_INICIAL;
         Date fechaPrestamo = prestamo.getFechaPrestamo();
         Date fechaDevolucion = prestamo.getFechaDevolucion();
@@ -85,7 +85,7 @@ public class GuardarPrestamoServicio {
         return valorPrestamo;
     }
 
-    protected Long aplicarDescuentos( List<Prestamo> prestamos, Prestamo prestamo ){
+    private Long aplicarDescuentos( List<Prestamo> prestamos, Prestamo prestamo ){
         int numeroPrestamos = prestamos.size();
         long valorPrestamo = prestamo.getValorPrestamo();
         if ( numeroPrestamos > 30){
