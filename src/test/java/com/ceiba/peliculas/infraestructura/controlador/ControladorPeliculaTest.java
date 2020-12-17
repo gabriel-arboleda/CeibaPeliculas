@@ -37,7 +37,7 @@ public class ControladorPeliculaTest {
     @Test
     public void consultaPelicula() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/pelicula")
+                .get("/api/pelicula")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -48,14 +48,14 @@ public class ControladorPeliculaTest {
     public void guardarPelicula() throws Exception {
         ComandoPelicula comandoPelicula = new PeliculaFactory().buildComando();
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/pelicula")
+                .post("/api/pelicula")
                 .content(objectMapper.writeValueAsString(comandoPelicula))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/pelicula")
+                .get("/api/pelicula")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class ControladorPeliculaTest {
     @Test
     public void eliminarCliente() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/pelicula/{idPelicula}", 1))
+                .delete("/api/pelicula/{idPelicula}", 1))
                 .andExpect(status().isOk());
     }
 
