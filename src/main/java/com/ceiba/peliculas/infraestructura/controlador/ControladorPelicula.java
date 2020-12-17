@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "pelicula")
+@RequestMapping(value = "api/pelicula")
 public class ControladorPelicula {
 
     private final ManejadorConsultaPelicula manejadorConsultaPelicula;
