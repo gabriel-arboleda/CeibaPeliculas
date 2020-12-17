@@ -92,6 +92,40 @@ public class GuardarPrestamoServicioTest {
         verify(repositorioPrestamo).existePrestamoPorPelicula(anyLong());
     }
 
+    @Test
+    public void guardarPrestamoDescuento20PorcientoTest(){
+        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(31);
+
+        Mockito.when(repositorioPrestamo.consultarPrestamosPorCliente(anyLong())).thenReturn(listaPrestamos);
+        Mockito.when(repositorioPrestamo.guardarPrestamo(any(Prestamo.class))).thenReturn(prestamo);
+        Mockito.when(repositorioPrestamo.existePrestamoPorPelicula(anyLong())).thenReturn(false);
+
+        Prestamo PrestamoCreado = spyGuardarPrestamoServicio.guardarPrestamo(prestamo);
+
+        assertEquals(prestamo, PrestamoCreado);
+        verify(repositorioPrestamo).consultarPrestamosPorCliente(anyLong());
+        verify(repositorioPrestamo).guardarPrestamo(any(Prestamo.class));
+        verify(repositorioPrestamo).existePrestamoPorPelicula(anyLong());
+    }
+
+    @Test
+    public void guardarPrestamoDescuento10PorcientoTest(){
+        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(16);
+
+        Mockito.when(repositorioPrestamo.consultarPrestamosPorCliente(anyLong())).thenReturn(listaPrestamos);
+        Mockito.when(repositorioPrestamo.guardarPrestamo(any(Prestamo.class))).thenReturn(prestamo);
+        Mockito.when(repositorioPrestamo.existePrestamoPorPelicula(anyLong())).thenReturn(false);
+
+        Prestamo PrestamoCreado = spyGuardarPrestamoServicio.guardarPrestamo(prestamo);
+
+        assertEquals(prestamo, PrestamoCreado);
+        verify(repositorioPrestamo).consultarPrestamosPorCliente(anyLong());
+        verify(repositorioPrestamo).guardarPrestamo(any(Prestamo.class));
+        verify(repositorioPrestamo).existePrestamoPorPelicula(anyLong());
+    }
+
 //    @Test
 //    public void guardarPrestamoErrorMaximoPrestamosTest(){
 //        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
