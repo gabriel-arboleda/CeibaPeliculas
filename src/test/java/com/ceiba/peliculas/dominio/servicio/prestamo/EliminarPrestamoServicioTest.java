@@ -31,7 +31,7 @@ public class EliminarPrestamoServicioTest {
     public void noExitePrestamoTest(){
         long idPrestamo = 1L;
 
-        Mockito.when(repositorioPrestamo.existsById(anyLong())).thenReturn(false);
+        Mockito.when(repositorioPrestamo.existePrestamo(anyLong())).thenReturn(false);
 
         try {
             spyEliminarPrestamoServicio.existePrestamo(idPrestamo);
@@ -40,7 +40,7 @@ public class EliminarPrestamoServicioTest {
             assertEquals(EliminarPrestamoServicio.ERROR_NO_EXISTE_PRESTAMO, error.getMessage());
         }
 
-        verify(repositorioPrestamo).existsById(anyLong());
+        verify(repositorioPrestamo).existePrestamo(anyLong());
     }
 
 }

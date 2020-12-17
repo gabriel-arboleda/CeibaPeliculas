@@ -1,8 +1,14 @@
 package com.ceiba.peliculas.dominio.repositorio;
 
-import com.ceiba.peliculas.infraestructura.modelo.PeliculaEntidad;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.ceiba.peliculas.dominio.modelo.Pelicula;
 
-@Repository
-public interface IRepositorioPelicula extends JpaRepository<PeliculaEntidad, Long>{}
+import java.util.List;
+
+public interface IRepositorioPelicula {
+
+    boolean existePelicula(Long idPelicula);
+    List<Pelicula> consultarPelicula();
+    Pelicula guardarPelicula(Pelicula pelicula);
+    void eliminarPelicula(Long idPelicula);
+
+}

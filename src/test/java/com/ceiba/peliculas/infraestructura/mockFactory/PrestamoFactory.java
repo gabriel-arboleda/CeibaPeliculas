@@ -48,17 +48,17 @@ public class PrestamoFactory {
                 .build();
     }
 
-    public List<PrestamoEntidad> buildListaPrestamoEntidad(){
-        List<PrestamoEntidad> listaPrestamos = new ArrayList<>();
-        listaPrestamos.add(buildPrestamoEntidad());
+    public List<Prestamo> buildListaPrestamoModelo(){
+        List<Prestamo> listaPrestamos = new ArrayList<>();
+        listaPrestamos.add(buildPrestamo());
         return listaPrestamos;
     }
 
-    public List<PrestamoEntidad> buildListaPrestamoEntidad(int numeroPrestamos){
-        List<PrestamoEntidad> listaPrestamos = new ArrayList<>();
+    public List<Prestamo> buildListaPrestamoModelo(int numeroPrestamos){
+        List<Prestamo> listaPrestamos = new ArrayList<>();
         int i = 0;
         while ( i < numeroPrestamos){
-            listaPrestamos.add(buildPrestamoEntidad());
+            listaPrestamos.add(buildPrestamo());
             i++;
         }
         return listaPrestamos;

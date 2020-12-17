@@ -14,11 +14,11 @@ public class EliminarPeliculaServicio {
 
     public void eliminarPelicula( Long idPelicula) {
         existePelicula(idPelicula);
-        repositorioPelicula.deleteById(idPelicula);
+        repositorioPelicula.eliminarPelicula(idPelicula);
     }
 
     public void existePelicula(Long idPelicula) {
-        boolean exitePelicula = repositorioPelicula.existsById(idPelicula);
+        boolean exitePelicula = repositorioPelicula.existePelicula(idPelicula);
         if (!exitePelicula)
             throw new ExistenciaPeliculaExcepcion(ERROR_NO_EXISTE_PELICULA);
     }

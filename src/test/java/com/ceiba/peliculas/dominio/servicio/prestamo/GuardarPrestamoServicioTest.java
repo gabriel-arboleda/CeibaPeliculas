@@ -1,10 +1,11 @@
 package com.ceiba.peliculas.dominio.servicio.prestamo;
 
-import com.ceiba.peliculas.dominio.excepcion.ErrorNegocioExcepcion;
+import com.ceiba.peliculas.dominio.excepcion.ErrorFechaEntregaMaximaExcepcion;
+import com.ceiba.peliculas.dominio.excepcion.ErrorMaximoPrestamoExcepcion;
+import com.ceiba.peliculas.dominio.excepcion.ErrorPeliculaPrestadaExcepcion;
 import com.ceiba.peliculas.dominio.modelo.Prestamo;
 import com.ceiba.peliculas.dominio.repositorio.IRepositorioPrestamo;
 import com.ceiba.peliculas.infraestructura.mockFactory.PrestamoFactory;
-import com.ceiba.peliculas.infraestructura.modelo.PrestamoEntidad;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 
@@ -36,52 +38,51 @@ public class GuardarPrestamoServicioTest {
     @Test
     public void guardarPrestamoTest(){
         Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-        PrestamoEntidad prestamoEntidad = new PrestamoFactory().buildPrestamoEntidad();
-        List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad();
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo();
 
-        Mockito.when(repositorioPrestamo.findAllByClienteEntidadDocIdentidad(anyLong())).thenReturn(listaPrestamos);
+        Mockito.when(repositorioPrestamo.consultarPrestamosPorCliente(anyLong())).thenReturn(listaPrestamos);
         Mockito.doReturn(5000L).when(spyGuardarPrestamoServicio).calcularValorPrestamo(any(Prestamo.class));
-        Mockito.doReturn(5000L).when(spyGuardarPrestamoServicio).aplicarDescuentos(anyListOf(PrestamoEntidad.class),any(Prestamo.class));
-        Mockito.when(repositorioPrestamo.saveAndFlush(any(PrestamoEntidad.class))).thenReturn(prestamoEntidad);
+        Mockito.doReturn(5000L).when(spyGuardarPrestamoServicio).aplicarDescuentos(anyListOf(Prestamo.class),any(Prestamo.class));
+        Mockito.when(repositorioPrestamo.guardarPrestamo(any(Prestamo.class))).thenReturn(prestamo);
 
         Prestamo PrestamoCreado = spyGuardarPrestamoServicio.guardarPrestamo(prestamo);
 
         assertEquals(prestamo, PrestamoCreado);
-        verify(repositorioPrestamo).findAllByClienteEntidadDocIdentidad(anyLong());
+        verify(repositorioPrestamo).consultarPrestamosPorCliente(anyLong());
         verify(spyGuardarPrestamoServicio).calcularValorPrestamo(any(Prestamo.class));
-        verify(spyGuardarPrestamoServicio).aplicarDescuentos(anyListOf(PrestamoEntidad.class),any(Prestamo.class));
-        verify(repositorioPrestamo).saveAndFlush(any(PrestamoEntidad.class));
+        verify(spyGuardarPrestamoServicio).aplicarDescuentos(anyListOf(Prestamo.class),any(Prestamo.class));
+        verify(repositorioPrestamo).guardarPrestamo(any(Prestamo.class));
     }
 
     @Test
     public void peliculaPrestadaTest(){
         long idPelicula = 1L;
 
-        Mockito.when(repositorioPrestamo.existsByPeliculaEntidadIdPelicula(anyLong())).thenReturn(true);
+        Mockito.when(repositorioPrestamo.existePrestamoPorPelicula(anyLong())).thenReturn(true);
 
         try {
             spyGuardarPrestamoServicio.peliculaPrestada(idPelicula);
         } catch (Exception error){
-            assertTrue(error instanceof ErrorNegocioExcepcion);
+            assertTrue(error instanceof ErrorPeliculaPrestadaExcepcion);
             assertEquals(GuardarPrestamoServicio.ERROR_PELICULA_PRESTADA, error.getMessage());
         }
-        verify(repositorioPrestamo).existsByPeliculaEntidadIdPelicula(anyLong());
+        verify(repositorioPrestamo).existePrestamoPorPelicula(anyLong());
 
     }
 
     @Test
     public void maximoPrestamoTest(){
-        List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad();
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo();
 
-        Mockito.doReturn(50L).when(spyGuardarPrestamoServicio).obtenerNumeroPrestamosVigentes(anyListOf(PrestamoEntidad.class));
+        Mockito.doReturn(50L).when(spyGuardarPrestamoServicio).obtenerNumeroPrestamosVigentes(anyListOf(Prestamo.class));
 
         try {
             spyGuardarPrestamoServicio.maximoPrestamo(listaPrestamos);
         } catch (Exception error){
-            assertTrue(error instanceof ErrorNegocioExcepcion);
+            assertTrue(error instanceof ErrorMaximoPrestamoExcepcion);
             assertEquals(GuardarPrestamoServicio.ERROR_MAXIMO_PRESTAMO, error.getMessage());
         }
-        verify(spyGuardarPrestamoServicio).maximoPrestamo(anyListOf(PrestamoEntidad.class));
+        verify(spyGuardarPrestamoServicio).maximoPrestamo(anyListOf(Prestamo.class));
     }
 
     @Test
@@ -92,12 +93,12 @@ public class GuardarPrestamoServicioTest {
         calendar.add(Calendar.DAY_OF_YEAR, 5);
         Date fechaEntrega = calendar.getTime();
 
-        List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad(16);
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(16);
 
         try {
             spyGuardarPrestamoServicio.validarFechaEntregaMaxima(listaPrestamos, prestamo);
         } catch (Exception error){
-            assertTrue(error instanceof ErrorNegocioExcepcion);
+            assertTrue(error instanceof ErrorFechaEntregaMaximaExcepcion);
             assertEquals(GuardarPrestamoServicio.ERROR_FECHA_MAXIMA_ENTREGA+fechaEntrega, error.getMessage());
         }
 
@@ -117,7 +118,7 @@ public class GuardarPrestamoServicioTest {
     @Test
     public void aplicarDescuentos20porcientoTest(){
         Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-        List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad(31);
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(31);
         long valorPrestamoEsperado = 4000L;
 
         long valorPrestamo = spyGuardarPrestamoServicio.aplicarDescuentos(listaPrestamos,prestamo);
@@ -128,7 +129,7 @@ public class GuardarPrestamoServicioTest {
     @Test
     public void aplicarDescuentos10porcientoTest(){
         Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-        List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad(16);
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo(16);
         long valorPrestamoEsperado = 4500L;
 
         long valorPrestamo = spyGuardarPrestamoServicio.aplicarDescuentos(listaPrestamos,prestamo);
@@ -139,7 +140,7 @@ public class GuardarPrestamoServicioTest {
     @Test
     public void noAplicarDescuentosTest(){
         Prestamo prestamo = new PrestamoFactory().buildPrestamo();
-        List<PrestamoEntidad> listaPrestamos = new PrestamoFactory().buildListaPrestamoEntidad();
+        List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo();
         long valorPrestamoEsperado = 5000L;
 
         long valorPrestamo = spyGuardarPrestamoServicio.aplicarDescuentos(listaPrestamos,prestamo);

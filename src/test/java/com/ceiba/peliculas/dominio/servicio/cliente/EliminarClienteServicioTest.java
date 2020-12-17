@@ -31,7 +31,7 @@ public class EliminarClienteServicioTest {
     public void noExiteClienteTest(){
         long docIdentidad = 1L;
 
-        Mockito.when(repositorioCliente.existsById(anyLong())).thenReturn(false);
+        Mockito.when(repositorioCliente.existeCliente(anyLong())).thenReturn(false);
 
         try {
             spyEliminarClienteServicio.existeCliente(docIdentidad);
@@ -40,7 +40,7 @@ public class EliminarClienteServicioTest {
             assertEquals(EliminarClienteServicio.ERROR_NO_EXISTE_CLIENTE, error.getMessage());
         }
 
-        verify(repositorioCliente).existsById(anyLong());
+        verify(repositorioCliente).existeCliente(anyLong());
     }
 
 }

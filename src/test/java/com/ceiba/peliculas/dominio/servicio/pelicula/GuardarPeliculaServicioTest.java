@@ -3,7 +3,6 @@ package com.ceiba.peliculas.dominio.servicio.pelicula;
 import com.ceiba.peliculas.dominio.modelo.Pelicula;
 import com.ceiba.peliculas.dominio.repositorio.IRepositorioPelicula;
 import com.ceiba.peliculas.infraestructura.mockFactory.PeliculaFactory;
-import com.ceiba.peliculas.infraestructura.modelo.PeliculaEntidad;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,14 +30,13 @@ public class GuardarPeliculaServicioTest {
     @Test
     public void guardarPeliculaTest(){
         Pelicula pelicula = new PeliculaFactory().buildPelicula();
-        PeliculaEntidad peliculaEntidad = new PeliculaFactory().buildPeliculaEntidad();
 
-        Mockito.when(repositorioPelicula.saveAndFlush(any(PeliculaEntidad.class))).thenReturn(peliculaEntidad);
+        Mockito.when(repositorioPelicula.guardarPelicula(any(Pelicula.class))).thenReturn(pelicula);
 
         Pelicula peliculaCreada = spyGuardarPeliculaServicio.guardarPelicula(pelicula);
 
         assertEquals(pelicula,peliculaCreada);
-        verify(repositorioPelicula).saveAndFlush(any(PeliculaEntidad.class));
+        verify(repositorioPelicula).guardarPelicula(any(Pelicula.class));
     }
 
 }
