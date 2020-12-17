@@ -19,8 +19,14 @@ public class GuardarPrestamoServicio {
     private final IRepositorioPrestamo repositorioPrestamo;
     public static final String ERROR_PELICULA_PRESTADA = "La pelicula ya ha sido prestada";
     public static final String ERROR_MAXIMO_PRESTAMO = "El cliente no puede prestar mas peliculas";
-    public static final int MAXIMOS_PRESTAMO = 35;
-    public static final int VALOR_PRESTAMOS_INICIAL = 5000;
+    public static final long MAXIMOS_PRESTAMO = 35;
+    public static final long NUMERO_PRESTAMOS_FECHA_MAXIMA = 15;
+    public static final long NUMERO_PRESTAMOS_DESCUENTO_20 = 30;
+    public static final long NUMERO_PRESTAMOS_DESCUENTO_10 = 15;
+    public static final double DESCUENTO_20 = 0.2;
+    public static final double DESCUENTO_10 = 0.2;
+    public static final int DIAS_ENTREGA = 5;
+    public static final long VALOR_PRESTAMOS_INICIAL = 5000;
     public static final String ERROR_FECHA_MAXIMA_ENTREGA = "La fecha maxima de entrega es el ";
 
     public Prestamo guardarPrestamo(Prestamo prestamo) {
@@ -50,16 +56,16 @@ public class GuardarPrestamoServicio {
         Date fechaHoy = new Date();
         return prestamos.stream()
                 .filter( prestamoEntidad ->
-                prestamoEntidad.getFechaPrestamo().after(fechaHoy) && prestamoEntidad.getFechaDevolucion().before(fechaHoy)
+                prestamoEntidad.getFechaPrestamo().before(fechaHoy) && prestamoEntidad.getFechaDevolucion().after(fechaHoy)
         ).count();
     }
 
     private void validarFechaEntregaMaxima(List<Prestamo> prestamos, Prestamo prestamo) {
         int numeroPrestamos = prestamos.size();
-        if (numeroPrestamos > 15 ) {
+        if (numeroPrestamos > NUMERO_PRESTAMOS_FECHA_MAXIMA ) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(prestamo.getFechaPrestamo());
-            calendar.add(Calendar.DAY_OF_YEAR, 5);
+            calendar.add(Calendar.DAY_OF_YEAR, DIAS_ENTREGA);
             Date fechaEntrega = calendar.getTime();
             if (prestamo.getFechaDevolucion().after(fechaEntrega)) {
                 throw new ErrorFechaEntregaMaximaExcepcion(ERROR_FECHA_MAXIMA_ENTREGA +fechaEntrega );
@@ -88,10 +94,10 @@ public class GuardarPrestamoServicio {
     private Long aplicarDescuentos( List<Prestamo> prestamos, Prestamo prestamo ){
         int numeroPrestamos = prestamos.size();
         long valorPrestamo = prestamo.getValorPrestamo();
-        if ( numeroPrestamos > 30){
-            valorPrestamo -= valorPrestamo * 0.2;
-        } else if( numeroPrestamos > 15 ) {
-            valorPrestamo -= valorPrestamo * 0.1;
+        if ( numeroPrestamos > NUMERO_PRESTAMOS_DESCUENTO_20){
+            valorPrestamo -= valorPrestamo * DESCUENTO_20;
+        } else if( numeroPrestamos > NUMERO_PRESTAMOS_DESCUENTO_10 ) {
+            valorPrestamo -= valorPrestamo * DESCUENTO_10;
         }
         return valorPrestamo;
     }
