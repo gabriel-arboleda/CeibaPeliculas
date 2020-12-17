@@ -1,8 +1,14 @@
 package com.ceiba.peliculas.dominio.repositorio;
 
-import com.ceiba.peliculas.infraestructura.modelo.ClienteEntidad;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.ceiba.peliculas.dominio.modelo.Cliente;
 
-@Repository
-public interface IRepositorioCliente extends JpaRepository<ClienteEntidad, Long> {}
+import java.util.List;
+
+public interface IRepositorioCliente {
+
+    boolean existeCliente(Long docIdentidad);
+    List<Cliente> consultarCliente();
+    Cliente guardarCliente(Cliente cliente);
+    void eliminarCliente(Long docIdentidad);
+
+}

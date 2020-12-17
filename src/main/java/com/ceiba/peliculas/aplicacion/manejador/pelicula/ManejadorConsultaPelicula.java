@@ -2,7 +2,6 @@ package com.ceiba.peliculas.aplicacion.manejador.pelicula;
 
 import com.ceiba.peliculas.dominio.modelo.Pelicula;
 import com.ceiba.peliculas.dominio.repositorio.IRepositorioPelicula;
-import com.ceiba.peliculas.infraestructura.adaptador.TransformadorPelicula;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,7 @@ public class ManejadorConsultaPelicula {
     private final IRepositorioPelicula repositorioPelicula;
 
     public List<Pelicula> ejecutar() {
-        return TransformadorPelicula.mapToListaPeliculaModelo(repositorioPelicula.findAll());
+        return repositorioPelicula.consultarPelicula();
     }
 
 }

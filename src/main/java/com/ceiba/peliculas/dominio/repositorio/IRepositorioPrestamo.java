@@ -1,14 +1,15 @@
 package com.ceiba.peliculas.dominio.repositorio;
 
+import com.ceiba.peliculas.dominio.modelo.Prestamo;
 import com.ceiba.peliculas.infraestructura.modelo.PrestamoEntidad;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface IRepositorioPrestamo extends JpaRepository<PrestamoEntidad, Long> {
+public interface IRepositorioPrestamo {
 
-    boolean existsByPeliculaEntidadIdPelicula( Long idPelicula );
-    List<PrestamoEntidad> findAllByClienteEntidadDocIdentidad( Long docIdentidad );
+    boolean existePrestamo(Long idPrestamo);
+    boolean existePrestamoPorPelicula(Long idPelicula);
+    List<Prestamo> consultarPrestamosPorCliente(Long docIdentidad);
+    Prestamo guardarPrestamo(Prestamo prestamo);
+    void eliminarPrestamo(Long idPrestamo);
 }

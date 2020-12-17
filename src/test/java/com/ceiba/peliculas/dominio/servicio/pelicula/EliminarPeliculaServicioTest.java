@@ -31,7 +31,7 @@ public class EliminarPeliculaServicioTest {
     public void noExitePeliculaTest(){
         long idPelicula = 1L;
 
-        Mockito.when(repositorioPelicula.existsById(anyLong())).thenReturn(false);
+        Mockito.when(repositorioPelicula.existePelicula(anyLong())).thenReturn(false);
 
         try {
             spyEliminarPeliculaServicio.existePelicula(idPelicula);
@@ -40,6 +40,6 @@ public class EliminarPeliculaServicioTest {
             assertEquals(EliminarPeliculaServicio.ERROR_NO_EXISTE_PELICULA, error.getMessage());
         }
 
-        verify(repositorioPelicula).existsById(anyLong());
+        verify(repositorioPelicula).existePelicula(anyLong());
     }
 }

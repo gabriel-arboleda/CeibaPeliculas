@@ -1,10 +1,11 @@
 package com.ceiba.peliculas.dominio.servicio.prestamo;
 
+import com.ceiba.peliculas.dominio.excepcion.ErrorFechaEntregaMaximaExcepcion;
+import com.ceiba.peliculas.dominio.excepcion.ErrorMaximoPrestamoExcepcion;
 import com.ceiba.peliculas.dominio.excepcion.ErrorNegocioExcepcion;
+import com.ceiba.peliculas.dominio.excepcion.ErrorPeliculaPrestadaExcepcion;
 import com.ceiba.peliculas.dominio.modelo.Prestamo;
 import com.ceiba.peliculas.dominio.repositorio.IRepositorioPrestamo;
-import com.ceiba.peliculas.infraestructura.adaptador.TransformadorPrestamo;
-import com.ceiba.peliculas.infraestructura.modelo.PrestamoEntidad;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,30 +25,29 @@ public class GuardarPrestamoServicio {
     public static final String ERROR_FECHA_MAXIMA_ENTREGA = "La fecha maxima de entrega es el ";
 
     public Prestamo guardarPrestamo(Prestamo prestamo) {
-        List<PrestamoEntidad> prestamos = repositorioPrestamo.findAllByClienteEntidadDocIdentidad(prestamo.getCliente().getDocIdentidad());
+        List<Prestamo> prestamos = repositorioPrestamo.consultarPrestamosPorCliente(prestamo.getCliente().getDocIdentidad());
         maximoPrestamo(prestamos);
         peliculaPrestada(prestamo.getPelicula().getIdPelicula());
         validarFechaEntregaMaxima(prestamos, prestamo);
         prestamo.setValorPrestamo(calcularValorPrestamo(prestamo));
         prestamo.setValorPrestamo(aplicarDescuentos(prestamos, prestamo));
-        PrestamoEntidad prestamoEntidad = TransformadorPrestamo.mapToPrestamoEntidad(prestamo);
-        return TransformadorPrestamo.mapToPrestamoModelo(repositorioPrestamo.saveAndFlush(prestamoEntidad));
+        return repositorioPrestamo.guardarPrestamo(prestamo);
     }
 
     public void peliculaPrestada( Long idPelicula ) {
-        boolean peliculaPrestada = repositorioPrestamo.existsByPeliculaEntidadIdPelicula( idPelicula );
+        boolean peliculaPrestada = repositorioPrestamo.existePrestamoPorPelicula( idPelicula );
         if ( peliculaPrestada )
-            throw new ErrorNegocioExcepcion(ERROR_PELICULA_PRESTADA);
+            throw new ErrorPeliculaPrestadaExcepcion(ERROR_PELICULA_PRESTADA);
     }
 
-    public void maximoPrestamo( List<PrestamoEntidad> prestamos ) throws ErrorNegocioExcepcion {
+    public void maximoPrestamo( List<Prestamo> prestamos ) throws ErrorNegocioExcepcion {
         long numeroPrestamos = obtenerNumeroPrestamosVigentes(prestamos);
         if (numeroPrestamos > MAXIMOS_PRESTAMO){
-            throw new ErrorNegocioExcepcion(ERROR_MAXIMO_PRESTAMO);
+            throw new ErrorMaximoPrestamoExcepcion(ERROR_MAXIMO_PRESTAMO);
         }
     }
 
-    public Long obtenerNumeroPrestamosVigentes(List<PrestamoEntidad> prestamos){
+    public Long obtenerNumeroPrestamosVigentes(List<Prestamo> prestamos){
         Date fechaHoy = new Date();
         return prestamos.stream()
                 .filter( prestamoEntidad ->
@@ -55,7 +55,7 @@ public class GuardarPrestamoServicio {
         ).count();
     }
 
-    public void validarFechaEntregaMaxima(List<PrestamoEntidad> prestamos, Prestamo prestamo) {
+    public void validarFechaEntregaMaxima(List<Prestamo> prestamos, Prestamo prestamo) {
         int numeroPrestamos = prestamos.size();
         if (numeroPrestamos > 15 ) {
             Calendar calendar = Calendar.getInstance();
@@ -63,7 +63,7 @@ public class GuardarPrestamoServicio {
             calendar.add(Calendar.DAY_OF_YEAR, 5);
             Date fechaEntrega = calendar.getTime();
             if (prestamo.getFechaDevolucion().after(fechaEntrega)) {
-                throw new ErrorNegocioExcepcion(ERROR_FECHA_MAXIMA_ENTREGA +fechaEntrega );
+                throw new ErrorFechaEntregaMaximaExcepcion(ERROR_FECHA_MAXIMA_ENTREGA +fechaEntrega );
             }
         }
     }
@@ -86,7 +86,7 @@ public class GuardarPrestamoServicio {
         return valorPrestamo;
     }
 
-    public Long aplicarDescuentos( List<PrestamoEntidad> prestamos, Prestamo prestamo ){
+    public Long aplicarDescuentos( List<Prestamo> prestamos, Prestamo prestamo ){
         int numeroPrestamos = prestamos.size();
         long valorPrestamo = prestamo.getValorPrestamo();
         if ( numeroPrestamos > 30){
