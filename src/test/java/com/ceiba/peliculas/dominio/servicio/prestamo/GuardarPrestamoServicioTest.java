@@ -38,7 +38,8 @@ public class GuardarPrestamoServicioTest {
 
     @Test
     public void guardarPrestamoExitoTest(){
-        Prestamo prestamo = new PrestamoFactory().buildPrestamo();
+        Date fecha = new PrestamoFactory().buildFecha(new Date(),16);
+        Prestamo prestamo = new PrestamoFactory().buildPrestamo(new Date(),fecha);
         List<Prestamo> listaPrestamos = new PrestamoFactory().buildListaPrestamoModelo();
 
         Mockito.when(repositorioPrestamo.consultarPrestamosPorCliente(anyLong())).thenReturn(listaPrestamos);
