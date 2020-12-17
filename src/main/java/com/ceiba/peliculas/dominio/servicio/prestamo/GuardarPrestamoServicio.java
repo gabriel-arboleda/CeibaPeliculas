@@ -26,6 +26,7 @@ public class GuardarPrestamoServicio {
     public static final double DESCUENTO_20 = 0.2;
     public static final double DESCUENTO_10 = 0.2;
     public static final int DIAS_ENTREGA = 5;
+    public static final long VALOR_ADICIONAL = 500;
     public static final long VALOR_PRESTAMOS_INICIAL = 5000;
     public static final String ERROR_FECHA_MAXIMA_ENTREGA = "La fecha maxima de entrega es el ";
 
@@ -82,11 +83,11 @@ public class GuardarPrestamoServicio {
         while (fechaPrestamo.before(fechaDevolucion)) {
             int dia = calendar.get(Calendar.DAY_OF_WEEK);
             if (dia == Calendar.SUNDAY || dia == Calendar.SATURDAY) {
-                valorPrestamo += 500;
+                valorPrestamo += VALOR_ADICIONAL;
             }
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             fechaPrestamo = calendar.getTime();
-            valorPrestamo += 500;
+            valorPrestamo += VALOR_ADICIONAL;
         }
         return valorPrestamo;
     }
