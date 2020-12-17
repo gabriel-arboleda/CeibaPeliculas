@@ -145,5 +145,5 @@ public class GuardarPrestamoServicioTest {
         verify(repositorioPrestamo).guardarPrestamo(any(Prestamo.class));
         verify(repositorioPrestamo).existePrestamoPorPelicula(anyLong());
     }
-    
+
 }
