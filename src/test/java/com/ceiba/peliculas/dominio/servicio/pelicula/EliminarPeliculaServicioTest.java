@@ -9,9 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
@@ -34,12 +34,26 @@ public class EliminarPeliculaServicioTest {
         Mockito.when(repositorioPelicula.existePelicula(anyLong())).thenReturn(false);
 
         try {
-            spyEliminarPeliculaServicio.existePelicula(idPelicula);
+            spyEliminarPeliculaServicio.eliminarPelicula(idPelicula);
         } catch (Exception error) {
             assertTrue(error instanceof ExistenciaPeliculaExcepcion);
             assertEquals(EliminarPeliculaServicio.ERROR_NO_EXISTE_PELICULA, error.getMessage());
         }
+        verify(repositorioPelicula).existePelicula(anyLong());
+        verify(repositorioPelicula, never()).eliminarPelicula(anyLong());
+    }
+
+    @Test
+    public void siExitePeliculaTest(){
+        long idPelicula = 1L;
+
+        Mockito.when(repositorioPelicula.existePelicula(anyLong())).thenReturn(true);
+
+        try {
+            spyEliminarPeliculaServicio.eliminarPelicula(idPelicula);
+        } catch (Exception ignored) {}
 
         verify(repositorioPelicula).existePelicula(anyLong());
+        verify(repositorioPelicula).eliminarPelicula(anyLong());
     }
 }

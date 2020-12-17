@@ -17,7 +17,7 @@ public class EliminarPeliculaServicio {
         repositorioPelicula.eliminarPelicula(idPelicula);
     }
 
-    public void existePelicula(Long idPelicula) {
+    private void existePelicula(Long idPelicula) {
         boolean exitePelicula = repositorioPelicula.existePelicula(idPelicula);
         if (!exitePelicula)
             throw new ExistenciaPeliculaExcepcion(ERROR_NO_EXISTE_PELICULA);

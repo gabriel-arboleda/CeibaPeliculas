@@ -21,7 +21,6 @@ public class ManejadorError extends ResponseEntityExceptionHandler {
     private static final ConcurrentHashMap<String, Integer> CODIGOS_ESTADO = new ConcurrentHashMap<>();
 
     public ManejadorError() {
-        CODIGOS_ESTADO.put(ErrorNegocioExcepcion.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ErrorFechaEntregaMaximaExcepcion.class.getSimpleName(), HttpStatus.PRECONDITION_FAILED.value());
         CODIGOS_ESTADO.put(ErrorMaximoPrestamoExcepcion.class.getSimpleName(), HttpStatus.PRECONDITION_FAILED.value());
         CODIGOS_ESTADO.put(ErrorPeliculaPrestadaExcepcion.class.getSimpleName(), HttpStatus.CONFLICT.value());

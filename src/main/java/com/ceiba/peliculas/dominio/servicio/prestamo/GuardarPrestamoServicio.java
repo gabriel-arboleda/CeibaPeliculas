@@ -2,7 +2,6 @@ package com.ceiba.peliculas.dominio.servicio.prestamo;
 
 import com.ceiba.peliculas.dominio.excepcion.ErrorFechaEntregaMaximaExcepcion;
 import com.ceiba.peliculas.dominio.excepcion.ErrorMaximoPrestamoExcepcion;
-import com.ceiba.peliculas.dominio.excepcion.ErrorNegocioExcepcion;
 import com.ceiba.peliculas.dominio.excepcion.ErrorPeliculaPrestadaExcepcion;
 import com.ceiba.peliculas.dominio.modelo.Prestamo;
 import com.ceiba.peliculas.dominio.repositorio.IRepositorioPrestamo;
@@ -34,20 +33,20 @@ public class GuardarPrestamoServicio {
         return repositorioPrestamo.guardarPrestamo(prestamo);
     }
 
-    public void peliculaPrestada( Long idPelicula ) {
+    protected void peliculaPrestada(Long idPelicula) {
         boolean peliculaPrestada = repositorioPrestamo.existePrestamoPorPelicula( idPelicula );
         if ( peliculaPrestada )
             throw new ErrorPeliculaPrestadaExcepcion(ERROR_PELICULA_PRESTADA);
     }
 
-    public void maximoPrestamo( List<Prestamo> prestamos ) throws ErrorNegocioExcepcion {
+    protected void maximoPrestamo( List<Prestamo> prestamos ) {
         long numeroPrestamos = obtenerNumeroPrestamosVigentes(prestamos);
         if (numeroPrestamos > MAXIMOS_PRESTAMO){
             throw new ErrorMaximoPrestamoExcepcion(ERROR_MAXIMO_PRESTAMO);
         }
     }
 
-    public Long obtenerNumeroPrestamosVigentes(List<Prestamo> prestamos){
+    protected Long obtenerNumeroPrestamosVigentes(List<Prestamo> prestamos){
         Date fechaHoy = new Date();
         return prestamos.stream()
                 .filter( prestamoEntidad ->
@@ -55,7 +54,7 @@ public class GuardarPrestamoServicio {
         ).count();
     }
 
-    public void validarFechaEntregaMaxima(List<Prestamo> prestamos, Prestamo prestamo) {
+    protected void validarFechaEntregaMaxima(List<Prestamo> prestamos, Prestamo prestamo) {
         int numeroPrestamos = prestamos.size();
         if (numeroPrestamos > 15 ) {
             Calendar calendar = Calendar.getInstance();
@@ -68,7 +67,7 @@ public class GuardarPrestamoServicio {
         }
     }
 
-    public Long calcularValorPrestamo(Prestamo prestamo) {
+    protected Long calcularValorPrestamo(Prestamo prestamo) {
         long valorPrestamo = VALOR_PRESTAMOS_INICIAL;
         Date fechaPrestamo = prestamo.getFechaPrestamo();
         Date fechaDevolucion = prestamo.getFechaDevolucion();
@@ -86,7 +85,7 @@ public class GuardarPrestamoServicio {
         return valorPrestamo;
     }
 
-    public Long aplicarDescuentos( List<Prestamo> prestamos, Prestamo prestamo ){
+    protected Long aplicarDescuentos( List<Prestamo> prestamos, Prestamo prestamo ){
         int numeroPrestamos = prestamos.size();
         long valorPrestamo = prestamo.getValorPrestamo();
         if ( numeroPrestamos > 30){

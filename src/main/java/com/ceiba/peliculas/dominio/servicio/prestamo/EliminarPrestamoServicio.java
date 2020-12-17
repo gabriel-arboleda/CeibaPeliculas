@@ -17,7 +17,7 @@ public class EliminarPrestamoServicio {
         repositorioPrestamo.eliminarPrestamo(idPrestamo);
     }
 
-    public void existePrestamo( Long idPrestamo ) {
+    private void existePrestamo( Long idPrestamo ) {
         boolean existePrestamo = repositorioPrestamo.existePrestamo( idPrestamo );
         if ( !existePrestamo )
             throw new ExistenciaPrestamoExcepcion(ERROR_NO_EXISTE_PRESTAMO);
