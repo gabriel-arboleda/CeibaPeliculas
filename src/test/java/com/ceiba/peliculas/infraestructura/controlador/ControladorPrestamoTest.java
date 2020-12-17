@@ -39,7 +39,7 @@ public class ControladorPrestamoTest {
     @Test
     public void consultaPrestamoPorCliente() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/prestamo/{docIdentidad}", 123)
+                .get("/api/prestamo/{docIdentidad}", 123)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -50,14 +50,14 @@ public class ControladorPrestamoTest {
     public void guardarPrestamo() throws Exception {
         ComandoPrestamo comandoPrestamo = new PrestamoFactory().buildComando();
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/prestamo")
+                .post("/api/prestamo")
                 .content(objectMapper.writeValueAsString(comandoPrestamo))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/prestamo/{docIdentidad}",321)
+                .get("/api/prestamo/{docIdentidad}",321)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -67,7 +67,7 @@ public class ControladorPrestamoTest {
     @Test
     public void eliminarPrestamo() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/prestamo/{idPrestamo}", 1))
+                .delete("/api/prestamo/{idPrestamo}", 1))
                 .andExpect(status().isOk());
     }
 }

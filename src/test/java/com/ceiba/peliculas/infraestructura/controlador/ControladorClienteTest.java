@@ -37,7 +37,7 @@ public class ControladorClienteTest {
     @Test
     public void consultaCliente() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/cliente")
+                .get("/api/cliente")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -48,14 +48,14 @@ public class ControladorClienteTest {
     public void guardarCliente() throws Exception {
         ComandoCliente comandoCliente = new ClienteFactory().buildComando();
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/cliente")
+                .post("/api/cliente")
                 .content(objectMapper.writeValueAsString(comandoCliente))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/cliente")
+                .get("/api/cliente")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class ControladorClienteTest {
     @Test
     public void eliminarCliente() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/cliente/{docIdentidad}", 123))
+                .delete("/api/cliente/{docIdentidad}", 123))
                 .andExpect(status().isOk());
     }
 
