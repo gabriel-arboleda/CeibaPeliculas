@@ -1,7 +1,6 @@
 package com.ceiba.peliculas.dominio.servicio.prestamo;
 
 import com.ceiba.peliculas.dominio.excepcion.ErrorFechaEntregaMaximaExcepcion;
-import com.ceiba.peliculas.dominio.excepcion.ErrorMaximoPrestamoExcepcion;
 import com.ceiba.peliculas.dominio.excepcion.ErrorPeliculaPrestadaExcepcion;
 import com.ceiba.peliculas.dominio.modelo.Prestamo;
 import com.ceiba.peliculas.dominio.repositorio.IRepositorioPrestamo;
@@ -13,13 +12,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
